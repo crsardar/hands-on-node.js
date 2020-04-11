@@ -1,0 +1,13 @@
+{
+    "name": "hello-docker-nodejs",
+    "version": "1.0.0",
+    "description": "A Hello World program for a Dockerized NodeJS application, Using Express",
+    "author": "Chittatanjan Sardar",
+    "main": "App.js",
+    "scripts": {
+        "start": "node App.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1"
+    }
+}
