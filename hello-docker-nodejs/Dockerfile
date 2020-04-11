@@ -1,8 +1,5 @@
 FROM node:10
 
-RUN addgroup -S node && adduser -S node -G node
-USER node:node
-
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
