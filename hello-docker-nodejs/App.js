@@ -6,10 +6,12 @@ const express = require('express');
 const PORT = 8090;
 const HOST = '0.0.0.0';
 
+var count = 0;
 // App
 const app = express();
 app.get('/hello-docker-nodejs', (req, res) => {
-    res.send('Hello World, NodeJS inside a Docker Container!');
+    count = count + 1;
+    res.send('Hello World, NodeJS in Docker Container! Count = ' + count);
 });
 
 app.listen(PORT, HOST);
