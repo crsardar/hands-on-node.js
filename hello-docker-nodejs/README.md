@@ -25,4 +25,3 @@ Steps -
 
 Note: 
 	* Before Step 4, Docker Engine should be installed in the system
-
