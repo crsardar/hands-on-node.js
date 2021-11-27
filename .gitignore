@@ -1,0 +1,14 @@
+.git/
+.idea/
+.gradle/
+.idea/
+**/logs
+**/target
+**/generated
+**/out
+**/local-experiments
+*.iml
+*.class 
+/.metadata/
+**/.DS_Store
+**/node_modules/

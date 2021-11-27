@@ -1,0 +1,16 @@
+{
+  "name": "com.crsardar",
+  "version": "1.0.0",
+  "description": "Processing CSV file",
+  "main": "App.js",
+  "scripts": {
+    "test": "run"
+  },
+  "author": "Chittaranjan Sardar",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "jquery": "^3.6.0",
+    "jquery-csv": "^1.0.21"
+  }
+}
