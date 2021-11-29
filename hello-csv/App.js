@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 var csv = require("csv-parser");
 var fs = require("fs");
+var Client = require("node-rest-client").Client;
 
-const fileToProcess = "./small.csv";
+const PROCESSING_CSV_FILE = "./small.csv";
 
 const summery = {};
 
@@ -10,6 +11,13 @@ var functionToCall = 0;
 var targetToken = null;
 var targetDate = null;
 
+const BASE_URI = "https://min-api.cryptocompare.com/data/pricemulti";
+const QUERY_PARAM = "fsyms=SGD&tsyms=USD";
+const API_KEY =
+  "9ef97e760722851b05c0db5e75cd4f8c65bba37279c6acaded234a944eee075c";
+const FULL_URI = BASE_URI + "?" + QUERY_PARAM + "&api_key=" + API_KEY;
+
+// Check command line arguments
 if (process.argv.length == 3) {
   var arg1 = process.argv[2];
   if (isNaN(arg1)) {
@@ -33,15 +41,9 @@ if (process.argv.length == 3) {
   }
 }
 
-fs.createReadStream(fileToProcess)
+fs.createReadStream(PROCESSING_CSV_FILE)
   .pipe(csv())
   .on("data", function (row) {
-    /*
-    console.log("functionToCall = " + functionToCall);
-    console.log("targetToken = " + targetToken);
-    console.log("targetDate = " + targetDate);
-    */
-
     switch (functionToCall) {
       case 0:
         summeryAll(row);
@@ -59,10 +61,10 @@ fs.createReadStream(fileToProcess)
         break;
     }
 
-    console.log(row);
+    //console.log(row);
   })
   .on("end", function () {
-    console.log("Summery = " + JSON.stringify(summery));
+    convertToUSD(summery);
   });
 
 function summeryAll(row) {
@@ -177,4 +179,25 @@ function summeryOnTokenAndDate(targetToken, targetDate, row) {
       );
     }
   }
+}
+
+function convertToUSD(summery) {
+  if (summery == null) {
+    console.log("NO Summery Available.");
+    return;
+  }
+
+  var client = new Client();
+
+  client.get(FULL_URI, (data) => {
+    let usdRate = data.SGD.USD;
+
+    console.log("USD exchange rate = " + usdRate);
+
+    Object.keys(summery).forEach((key) => {
+      summery[key] = summery[key] * usdRate;
+    });
+
+    console.log("\n\nPortfolio value = " + JSON.stringify(summery) + "\n\n");
+  });
 }
